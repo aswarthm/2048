@@ -1,12 +1,10 @@
 //COMPILE WITH C99
-
 #include<stdio.h>
 #include<stdlib.h>
-
-//int A[4][4] = {-1,-1,2,16, -1,-1,2,-1, 2,2,2,2, 8,2,2,2};
-//int A[4][4] = {2,2,2,2, 8,2,2,2, -1,-1,2,16, -1,-1,2,-1};
+#include<time.h>
 
 int A[4][4] = {-1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1};
+int score = 0;
 
 void show(int A[4][4]){
     printf("//////////////////////////\n");
@@ -86,6 +84,7 @@ int up(int A[4][4]){
                     A[i+1][j] = -1;
                     i++;
                     flag = 1;
+                    score += A[i][j];
 
                 }
             }
@@ -112,7 +111,7 @@ int down(int A[4][4]){
             }
             else{
                 if (A[i-1][j] == -1){
-                    shift_down(A,i-1,j);//////
+                    shift_down(A,i-1,j);
                     count++;
 
                     for(int k=i-2;k>=0;k--){
@@ -122,7 +121,7 @@ int down(int A[4][4]){
                 }
 
                 else if (A[i][j] != A[i-1][j]){
-                    i--;                            /////
+                    i--;                            
                 }
 
                 else {
@@ -190,7 +189,7 @@ int right(int A[4][4]){
         int j =3;
         while(count<4 && j>0){       
             if (A[i][j] == -1){
-                shift_right(A, i, j);  ////
+                shift_right(A, i, j);  
                 count++;
 
                 for(int k = j-1; k>=0; k--){
@@ -211,7 +210,7 @@ int right(int A[4][4]){
                 }
 
                 else if (A[i][j] != A[i][j-1]){
-                    j--;                            /////
+                    j--;                            
                 }
 
                 else {
@@ -250,24 +249,32 @@ int isGameOver(int A[4][4]){
     return !(up(B) || down(B) || left(B) || right(B));
 }
 
+void artsy(){
+        printf(
+" _____  _____    ___  _____ \n"
+"/ __  \\|  _  |  /   ||  _  |\n"
+"`' / /'| |/' | / /| | \\ V / \n"
+"  / /  |  /| |/ /_| | / _ \\ \n"
+"./ /___\\ |_/ /\\___  || |_| |\n"
+"\\_____/ \\___/     |_/\\_____/\n");
+printf("Made by shishiraiyar\n");
+printf("Use wasd to play\n");
+                                                       
+}
 int main(){
-    printf("%d",rand());
+    artsy();
+    srand(time(0));                 //time(0) gives current unix time. srand is used to seed rand
     randomSquare(A);
     randomSquare(A);
     char c = 'z';
-    // printf("kkk");
     while(c != 'e'){                   //e for exit
         show(A);
         if(isGameOver(A)){
-            printf("***GAME OVER***");
+            printf("***GAME OVER***\n");
             return 0;
         }
         printf("Make a move: ");
-
-        //for(int k=0; k<100000;k++){}
-        scanf(" %c",&c);     //without empty space scanf takes \n as input. No idea why. no idea where it comes from. dangling \n
-
-        //printf("ascii = %d\n",c);
+        scanf(" %c",&c);     //without empty space scanf takes \n as input. No idea why. no idea where it comes from. DANGLING \n
 
         switch (c)
         {
@@ -294,16 +301,10 @@ int main(){
                 randomSquare(A);
             }
             break;
-        
-        // default:
-        //     printf("lol\n");
         }
-        
-
-
     }
 }
-//// BIG ISSUE WITH CODE> DONT ADD RANDOM IF MOVE DOESNT CHANGE ANYTHING. DUM DUM  DONE
+//// BIG ISSUE WITH CODE> DONT ADD RANDOM IF MOVE DOESNT CHANGE ANYTHING. DUM DUM.  DONE
 
 // RANDOM INITIALISE    DONE
 
@@ -312,6 +313,10 @@ int main(){
 // IS GAME OVER FUNCTION              DONE
 
 // ADD CLS?
+
+// ADD play again?
+
+// Calculate score?
 
 
 
@@ -325,15 +330,10 @@ while count<4(maybe take more just in case)
 
         if -1. shift up for below. keep i same.    (also maybe count++)
         
-
-
-
-in one of the columns put random[2 or 4 (weighted)] in any of the -1 spots.
 */
 
+// nscript doom
 
-//why is it printing twice
-//DOWN and RIGHT functions
-//REPLACE RANDOM -1 with num
+
 
 
