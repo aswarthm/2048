@@ -4,9 +4,12 @@
 #include<stdlib.h>
 
 //int A[4][4] = {-1,-1,2,16, -1,-1,2,-1, 2,2,2,2, 8,2,2,2};
-int A[4][4] = {2,2,2,2, 8,2,2,2, -1,-1,2,16, -1,-1,2,-1};
+//int A[4][4] = {2,2,2,2, 8,2,2,2, -1,-1,2,16, -1,-1,2,-1};
+
+int A[4][4] = {-1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1};
 
 void show(int A[4][4]){
+    printf("//////////////////////////\n");
     for (int i=0; i<4; i++){
         for (int j=0; j<4; j++){
             if(A[i][j]==-1)
@@ -16,7 +19,7 @@ void show(int A[4][4]){
         }
         printf("\n");     
     }
-    printf("///////////////////////\n");
+    printf("//////////////////////////\n");
 }
 
 void shift_up(int A[4][4], int i, int j){
@@ -238,12 +241,26 @@ void randomSquare(int A[4][4]){
     }
 }
 
+int isGameOver(int A[4][4]){
+    int B[4][4];
+    for (int i=0;i<4;i++){
+        for(int j=0;j<4;j++){
+            B[i][j] = A[i][j];
+        }
+    }
+    return !(up(B) || down(B) || left(B) || right(B));
+}
+
 int main(){
     char c = 'z';
     // printf("kkk");
     while(c != 'e'){                   //e for exit
         show(A);
-        printf("Make a move \n");
+        if(isGameOver(A)){
+            printf("***GAME OVER***");
+            return 0;
+        }
+        printf("Make a move: ");
 
         //for(int k=0; k<100000;k++){}
         scanf(" %c",&c);     //without empty space scanf takes \n as input. No idea why. no idea where it comes from. dangling \n
@@ -279,17 +296,20 @@ int main(){
         // default:
         //     printf("lol\n");
         }
+        
 
 
     }
 }
-//// BIG ISSUE WITH CODE> DONT ADD RANDOM IF MOVE DOESNT CHANGE ANYTHING. DUM DUM  FIXED IT IG
+//// BIG ISSUE WITH CODE> DONT ADD RANDOM IF MOVE DOESNT CHANGE ANYTHING. DUM DUM  DONE
 
-// RANDOM INITIALISE
+// RANDOM INITIALISE   
 
-// MAKE -1 appear as 0 by changing show function
+// MAKE -1 appear as 0 by changing show function       DONE
 
-// IS GAME OVER FUNCTION
+// IS GAME OVER FUNCTION              DONE
+
+// ADD CLS?
 
 
 
