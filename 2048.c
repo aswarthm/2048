@@ -9,7 +9,10 @@ int A[4][4] = {2,2,2,2, 8,2,2,2, -1,-1,2,16, -1,-1,2,-1};
 void show(int A[4][4]){
     for (int i=0; i<4; i++){
         for (int j=0; j<4; j++){
-            printf("%d\t",A[i][j]);
+            if(A[i][j]==-1)
+                printf("  \t",A[i][j]);
+            else
+                printf("%d\t",A[i][j]);
         }
         printf("\n");     
     }
