@@ -88,19 +88,31 @@ int up(int A[4][4]){
     return flag;
 }
 
-void down(int A[4][4]){
+int down(int A[4][4]){
+    int flag = 0;
     for (int j=0;j<4;j++){
         int count =0;
         int i =3;
         while(count<4 && i>0){       
             if (A[i][j] == -1){
-                shift_down(A, i, j);  ////
+                shift_down(A, i, j);  
                 count++;
+
+                for(int k = i-1; k>=0; k--){
+                    if(A[k][j] != -1)
+                        flag = 1;
+                }
+
             }
             else{
                 if (A[i-1][j] == -1){
                     shift_down(A,i-1,j);//////
                     count++;
+
+                    for(int k=i-2;k>=0;k--){
+                        if (A[k][j] != -1)
+                            flag=1;
+                    }
                 }
 
                 else if (A[i][j] != A[i-1][j]){
@@ -111,11 +123,13 @@ void down(int A[4][4]){
                     A[i][j] = 2*A[i][j];
                     A[i-1][j] = -1;
                     i--;
+                    flag = 1;
 
                 }
             }
         }
     }
+    return flag;
 }
 
 int left(int A[4][4]){
@@ -163,7 +177,8 @@ int left(int A[4][4]){
     return flag;
 }
 
-void right(int A[4][4]){
+int right(int A[4][4]){
+    int flag = 0;
     for (int i=0;i<4;i++){
         int count =0;
         int j =3;
@@ -171,11 +186,22 @@ void right(int A[4][4]){
             if (A[i][j] == -1){
                 shift_right(A, i, j);  ////
                 count++;
+
+                for(int k = j-1; k>=0; k--){
+                    if(A[i][k] != -1)
+                        flag = 1;
+                }
+
             }
             else{
                 if (A[i][j-1] == -1){
                     shift_right(A,i,j-1);//////
                     count++;
+
+                    for(int k = j-2; k>=0; k--){
+                        if(A[i][k] != -1)
+                            flag = 1;     
+                    }
                 }
 
                 else if (A[i][j] != A[i][j-1]){
@@ -186,11 +212,12 @@ void right(int A[4][4]){
                     A[i][j] = 2*A[i][j];
                     A[i][j-1] = -1;
                     j--;
-
+                    flag=1;
                 }
             }
         }
     }
+    return flag;
 }
 
 void randomSquare(int A[4][4]){
@@ -235,18 +262,21 @@ int main(){
             break;
 
         case 's':
-            down(A);
+            if (down(A)){
+                randomSquare(A);
+            }
             break;
 
         case 'd':
-            right(A);
+            if(right(A)){
+                randomSquare(A);
+            }
             break;
         
         // default:
         //     printf("lol\n");
         }
 
-        //randomSquare(A);
 
     }
 }
@@ -254,11 +284,14 @@ int main(){
 
 // RANDOM INITIALISE
 
+// MAKE -1 appear as 0 by changing show function
+
+// IS GAME OVER FUNCTION
+
 
 
 /*
 For each column;
-check if -1; shift up only everything below. else if num check whats below it. If -1 shi.        ; if last row terminate.
 
 while count<4(maybe take more just in case)
     if -1 shift up. count++ ; else check below. 
@@ -267,9 +300,6 @@ while count<4(maybe take more just in case)
 
         if -1. shift up for below. keep i same.    (also maybe count++)
         
-
-
- ;i++; while -1 shift up;   terminate if last row.  [count shift ups and focus downs. if 4. terminate]
 
 
 
@@ -282,26 +312,3 @@ in one of the columns put random[2 or 4 (weighted)] in any of the -1 spots.
 //REPLACE RANDOM -1 with num
 
 
-/* WHY DOESNT THIS WORK??
-switch (c)
-        {
-        case 'w':
-            up(A);
-            break;
-        
-        case 'a':
-            left(A);
-            break;
-
-        case 's':
-            down(A);
-            break;
-
-        case 'd':
-            right(A);
-            break;
-        
-        default:
-            printf("lol\n");
-        }
-*/
