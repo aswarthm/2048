@@ -246,13 +246,17 @@ void randomSquare(int A[4][4]){
 }
 
 int isGameOver(int A[4][4]){
+    int dontChangeScore = score;
     int B[4][4];
     for (int i=0;i<4;i++){
         for(int j=0;j<4;j++){
             B[i][j] = A[i][j];
         }
     }
-    return !(up(B) || down(B) || left(B) || right(B));
+
+    int tempVar = !(up(B) || down(B) || left(B) || right(B));
+    score = dontChangeScore; 
+    return tempVar;
 }
 
 int reset(){
@@ -298,6 +302,7 @@ int main(){
             }
             return 0;
         }
+        
         printf("Current score: %d\n",score);
         printf("Make a move: ");
         scanf(" %c",&c);     //without empty space scanf takes \n as input. No idea why. no idea where it comes from. DANGLING \n
@@ -344,7 +349,7 @@ int main(){
 
 // Calculate score?
 
-//NOTHINGS CHANGING AND SCORE IS INCREASING?  ISGAMEOVER CALLS up down and stuff adding to score
+//NOTHINGS CHANGING AND SCORE IS INCREASING?  ISGAMEOVER CALLS up down and stuff adding to score      FIXED
 
 
 
