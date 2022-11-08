@@ -81,10 +81,11 @@ int up(int A[4][4]){
 
                 else {
                     A[i][j] = 2*A[i][j];
+                    score += A[i][j];
                     A[i+1][j] = -1;
                     i++;
                     flag = 1;
-                    score += A[i][j];
+                    
 
                 }
             }
@@ -126,9 +127,11 @@ int down(int A[4][4]){
 
                 else {
                     A[i][j] = 2*A[i][j];
+                    score += A[i][j];
                     A[i-1][j] = -1;
                     i--;
                     flag = 1;
+                    
 
                 }
             }
@@ -171,9 +174,11 @@ int left(int A[4][4]){
 
                 else {
                     A[i][j] = 2*A[i][j];
+                    score += A[i][j];
                     A[i][j+1] = -1;
                     j++;
                     flag = 1;
+                    
 
                 }
             }
@@ -215,9 +220,10 @@ int right(int A[4][4]){
 
                 else {
                     A[i][j] = 2*A[i][j];
+                    score += A[i][j];
                     A[i][j-1] = -1;
                     j--;
-                    flag=1;
+                    flag=1;  
                 }
             }
         }
@@ -249,6 +255,15 @@ int isGameOver(int A[4][4]){
     return !(up(B) || down(B) || left(B) || right(B));
 }
 
+int reset(){
+    for(int i=0;i<4;i++){
+        for (int j=0; j<4; j++){
+            A[i][j] = -1;
+        }
+    }
+    score =0;
+}
+
 void artsy(){
         printf(
 " _____  _____    ___  _____ \n"
@@ -267,12 +282,23 @@ int main(){
     randomSquare(A);
     randomSquare(A);
     char c = 'z';
+    char play = 'y';
     while(c != 'e'){                   //e for exit
         show(A);
         if(isGameOver(A)){
             printf("***GAME OVER***\n");
+            printf("Your score: %d\n",score);
+            printf("Do you want to play again? y or n? ");
+            scanf("%c",play);
+            if (play == 'y'){
+                //reset();
+                // A = {-1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1};
+                // score = 0;
+                //main();
+            }
             return 0;
         }
+        printf("Current score: %d\n",score);
         printf("Make a move: ");
         scanf(" %c",&c);     //without empty space scanf takes \n as input. No idea why. no idea where it comes from. DANGLING \n
 
@@ -317,6 +343,8 @@ int main(){
 // ADD play again?
 
 // Calculate score?
+
+//NOTHINGS CHANGING AND SCORE IS INCREASING?  ISGAMEOVER CALLS up down and stuff adding to score
 
 
 
