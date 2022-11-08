@@ -1,6 +1,7 @@
 //COMPILE WITH C99
 
 #include<stdio.h>
+#include<stdlib.h>
 
 //int A[4][4] = {-1,-1,2,16, -1,-1,2,-1, 2,2,2,2, 8,2,2,2};
 int A[4][4] = {2,2,2,2, 8,2,2,2, -1,-1,2,16, -1,-1,2,-1};
@@ -44,7 +45,8 @@ void shift_right(int A[4][4], int i, int j){
     A[i][0] = -1;
 }
 
-void up(int A[4][4]){
+int up(int A[4][4]){
+    int flag = 0;
     for (int j=0;j<4;j++){
         int count =0;
         int i =0;
@@ -52,11 +54,21 @@ void up(int A[4][4]){
             if (A[i][j] == -1){
                 shift_up(A, i, j);
                 count++;
+
+                for (int k=i; k<=3; k++){        //Checks if its all -1 below this -1. If so shift up is not considered a move.
+                    if (A[k][j] != -1)          //Ensures there's atleast one non -1 below
+                        flag = 1;
+                }
             }
             else{
                 if (A[i+1][j] == -1){
                     shift_up(A,i+1,j);
                     count++;
+
+                    for (int k=i+1; k<=3; k++){        //Checks if its all -1 below this -1. If so shift up is not considered a move.
+                        if (A[k][j] != -1)            //Ensures there's atleast one non -1 below
+                            flag = 1;
+                    }
                 }
 
                 else if (A[i][j] != A[i+1][j]){
@@ -67,11 +79,13 @@ void up(int A[4][4]){
                     A[i][j] = 2*A[i][j];
                     A[i+1][j] = -1;
                     i++;
+                    flag = 1;
 
                 }
             }
         }
     }
+    return flag;
 }
 
 void down(int A[4][4]){
@@ -104,7 +118,8 @@ void down(int A[4][4]){
     }
 }
 
-void left(int A[4][4]){
+int left(int A[4][4]){
+    int flag = 0;
     for (int i=0;i<4;i++){
         int count =0;
         int j =0;
@@ -112,11 +127,23 @@ void left(int A[4][4]){
             if (A[i][j] == -1){
                 shift_left(A, i, j);
                 count++;
+
+                for (int k=j; k<=3; k++){        //Checks if its all -1 to the right of this -1. If so shift left is not considered a move.
+                    if (A[i][k] != -1)          //Ensures there's atleast one non -1 to the right.
+                        flag = 1;
+                }
+
             }
             else{
                 if (A[i][j+1] == -1){
                     shift_left(A,i,j+1);
                     count++;
+
+                    for (int k=j+1; k<=3; k++){        //Checks if its all -1 to the right of this -1. If so shift left is not considered a move.
+                        if (A[i][k] != -1)          //Ensures there's atleast one non -1 to the right.
+                            flag = 1;
+                    }
+
                 }
 
                 else if (A[i][j] != A[i][j+1]){
@@ -127,11 +154,13 @@ void left(int A[4][4]){
                     A[i][j] = 2*A[i][j];
                     A[i][j+1] = -1;
                     j++;
+                    flag = 1;
 
                 }
             }
         }
     }
+    return flag;
 }
 
 void right(int A[4][4]){
@@ -164,6 +193,21 @@ void right(int A[4][4]){
     }
 }
 
+void randomSquare(int A[4][4]){
+    int place = 1;
+    while(place){
+        for (int i=0; i<4; i++){
+            for (int j=0; j<4; j++){
+                if(A[i][j] == -1 && rand()%16 ==0){
+                    A[i][j] = rand()%10==0?4:2;  
+                    place = 0;
+                }
+            }
+        }
+
+    }
+}
+
 int main(){
     char c = 'z';
     // printf("kkk");
@@ -172,19 +216,22 @@ int main(){
         printf("Make a move \n");
 
         //for(int k=0; k<100000;k++){}
-        scanf("\n%c",&c);     //without \n scanf takes \n as input. No idea why. no idea where it comes from. 
+        scanf(" %c",&c);     //without empty space scanf takes \n as input. No idea why. no idea where it comes from. dangling \n
 
-        printf("kek = %d\n",c);
-
+        //printf("ascii = %d\n",c);
 
         switch (c)
         {
         case 'w':
-            up(A);
+            if(up(A)){
+                randomSquare(A);
+            }
             break;
         
         case 'a':
-            left(A);
+            if (left(A)){
+                randomSquare(A);
+            }
             break;
 
         case 's':
@@ -199,8 +246,15 @@ int main(){
         //     printf("lol\n");
         }
 
+        //randomSquare(A);
+
     }
 }
+//// BIG ISSUE WITH CODE> DONT ADD RANDOM IF MOVE DOESNT CHANGE ANYTHING. DUM DUM  FIXED IT IG
+
+// RANDOM INITIALISE
+
+
 
 /*
 For each column;
@@ -250,20 +304,4 @@ switch (c)
         default:
             printf("lol\n");
         }
-
-
-   if(c == 'w')
-        up(A);
-
-        if(c == 'a')
-        left(A);
-
-        if(c == 's')
-        down(A);
-
-        if(c == 'd')
-        right(A);
-        
-        show(A);
-        
 */
