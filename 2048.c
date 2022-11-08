@@ -227,13 +227,12 @@ int right(int A[4][4]){
 }
 
 void randomSquare(int A[4][4]){
-    int place = 1;
-    while(place){
+    while(1){
         for (int i=0; i<4; i++){
             for (int j=0; j<4; j++){
-                if(A[i][j] == -1 && rand()%16 ==0){
+                if(A[i][j] == -1 && rand()%32 ==0){
                     A[i][j] = rand()%10==0?4:2;  
-                    place = 0;
+                    return;
                 }
             }
         }
@@ -252,6 +251,9 @@ int isGameOver(int A[4][4]){
 }
 
 int main(){
+    printf("%d",rand());
+    randomSquare(A);
+    randomSquare(A);
     char c = 'z';
     // printf("kkk");
     while(c != 'e'){                   //e for exit
@@ -303,7 +305,7 @@ int main(){
 }
 //// BIG ISSUE WITH CODE> DONT ADD RANDOM IF MOVE DOESNT CHANGE ANYTHING. DUM DUM  DONE
 
-// RANDOM INITIALISE   
+// RANDOM INITIALISE    DONE
 
 // MAKE -1 appear as 0 by changing show function       DONE
 
