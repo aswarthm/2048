@@ -280,6 +280,8 @@ printf("Made by shishiraiyar\n");
 printf("Use wasd to play\n");
                                                        
 }
+
+
 int main(){
     artsy();
     srand(time(0));                 //time(0) gives current unix time. srand is used to seed rand
@@ -292,14 +294,14 @@ int main(){
         if(isGameOver(A)){
             printf("***GAME OVER***\n");
             printf("Your score: %d\n",score);
-            printf("Do you want to play again? y or n? ");
-            scanf("%c",play);
-            if (play == 'y'){
-                //reset();
-                // A = {-1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1};
-                // score = 0;
-                //main();
-            }
+            // printf("Do you want to play again? y or n? ");
+            // scanf("%c",play);
+            // if (play == 'y'){
+            //     //reset();
+            //     // A = {-1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1};
+            //     // score = 0;
+            //     //main();
+            // }
             return 0;
         }
         
@@ -347,7 +349,7 @@ int main(){
 
 // ADD play again?
 
-// Calculate score?
+// Calculate score?    DONE
 
 //NOTHINGS CHANGING AND SCORE IS INCREASING?  ISGAMEOVER CALLS up down and stuff adding to score      FIXED
 
