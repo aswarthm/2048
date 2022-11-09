@@ -3,13 +3,16 @@
 #include<stdlib.h>
 #include<time.h>
 
-int A[4][4] = {-1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1};
+#define ROWS 4       //NUMBER OF ROWS
+#define COLUMNS 4       //NUMBER OF COLUMNS
+
+int A[ROWS][COLUMNS];    /////MAKE THIS FILL BY FOR LOOP
 int score = 0;
 
-void show(int A[4][4]){
+void show(int A[ROWS][COLUMNS]){
     printf("//////////////////////////\n");
-    for (int i=0; i<4; i++){
-        for (int j=0; j<4; j++){
+    for (int i=0; i<ROWS; i++){
+        for (int j=0; j<COLUMNS; j++){
             if(A[i][j]==-1)
                 printf("  \t",A[i][j]);
             else
@@ -20,46 +23,46 @@ void show(int A[4][4]){
     printf("//////////////////////////\n");
 }
 
-void shift_up(int A[4][4], int i, int j){
-    for(i; i<4-1; i++){
+void shift_up(int A[ROWS][COLUMNS], int i, int j){
+    for(i; i<ROWS-1; i++){
         A[i][j] = A[i+1][j];
     }
-    A[3][j] = -1;
+    A[ROWS-1][j] = -1;
 }
 
-void shift_down(int A[4][4], int i, int j){
+void shift_down(int A[ROWS][COLUMNS], int i, int j){
     for(i; i>0; i--){
         A[i][j] = A[i-1][j];
     }
     A[0][j] = -1;
 }
 
-void shift_left(int A[4][4], int i, int j){
-    for(j; j<4-1; j++){
+void shift_left(int A[ROWS][COLUMNS], int i, int j){
+    for(j; j<COLUMNS-1; j++){
         A[i][j] = A[i][j+1];
     }
-    A[i][3] = -1;
+    A[i][COLUMNS-1] = -1;
 
 }
 
-void shift_right(int A[4][4], int i, int j){
+void shift_right(int A[ROWS][COLUMNS], int i, int j){
     for(j; j>0; j--){
         A[i][j] = A[i][j-1];
     }
     A[i][0] = -1;
 }
 
-int up(int A[4][4]){
+int up(int A[ROWS][COLUMNS]){
     int flag = 0;
-    for (int j=0;j<4;j++){
+    for (int j=0;j<COLUMNS;j++){
         int count =0;
         int i =0;
-        while(count<4 && i<3){       //maybe i<2 actually. coz shiftup(2+1) is called. and shift up also does +1. so it tries to access A[4]
+        while(count<ROWS && i<ROWS-1){       //maybe i<2 actually. coz shiftup(2+1) is called. and shift up also does +1. so it tries to access A[4]
             if (A[i][j] == -1){
                 shift_up(A, i, j);
                 count++;
 
-                for (int k=i; k<=3; k++){        //Checks if its all -1 below this -1. If so shift up is not considered a move.
+                for (int k=i; k<=ROWS-1; k++){        //Checks if its all -1 below this -1. If so shift up is not considered a move.
                     if (A[k][j] != -1)          //Ensures there's atleast one non -1 below
                         flag = 1;
                 }
@@ -69,7 +72,7 @@ int up(int A[4][4]){
                     shift_up(A,i+1,j);
                     count++;
 
-                    for (int k=i+1; k<=3; k++){        //Checks if its all -1 below this -1. If so shift up is not considered a move.
+                    for (int k=i+1; k<=ROWS-1; k++){        //Checks if its all -1 below this -1. If so shift up is not considered a move.
                         if (A[k][j] != -1)            //Ensures there's atleast one non -1 below
                             flag = 1;
                     }
@@ -94,12 +97,12 @@ int up(int A[4][4]){
     return flag;
 }
 
-int down(int A[4][4]){
+int down(int A[ROWS][COLUMNS]){
     int flag = 0;
-    for (int j=0;j<4;j++){
+    for (int j=0;j<COLUMNS;j++){
         int count =0;
-        int i =3;
-        while(count<4 && i>0){       
+        int i =ROWS-1;
+        while(count<ROWS && i>0){       
             if (A[i][j] == -1){
                 shift_down(A, i, j);  
                 count++;
@@ -140,17 +143,17 @@ int down(int A[4][4]){
     return flag;
 }
 
-int left(int A[4][4]){
+int left(int A[ROWS][COLUMNS]){
     int flag = 0;
-    for (int i=0;i<4;i++){
+    for (int i=0;i<ROWS;i++){
         int count =0;
         int j =0;
-        while(count<4 && j<3){       
+        while(count<COLUMNS && j<COLUMNS-1){       
             if (A[i][j] == -1){
                 shift_left(A, i, j);
                 count++;
 
-                for (int k=j; k<=3; k++){        //Checks if its all -1 to the right of this -1. If so shift left is not considered a move.
+                for (int k=j; k<=COLUMNS-1; k++){        //Checks if its all -1 to the right of this -1. If so shift left is not considered a move.
                     if (A[i][k] != -1)          //Ensures there's atleast one non -1 to the right.
                         flag = 1;
                 }
@@ -161,7 +164,7 @@ int left(int A[4][4]){
                     shift_left(A,i,j+1);
                     count++;
 
-                    for (int k=j+1; k<=3; k++){        //Checks if its all -1 to the right of this -1. If so shift left is not considered a move.
+                    for (int k=j+1; k<=COLUMNS-1; k++){        //Checks if its all -1 to the right of this -1. If so shift left is not considered a move.
                         if (A[i][k] != -1)          //Ensures there's atleast one non -1 to the right.
                             flag = 1;
                     }
@@ -187,12 +190,12 @@ int left(int A[4][4]){
     return flag;
 }
 
-int right(int A[4][4]){
+int right(int A[ROWS][COLUMNS]){
     int flag = 0;
-    for (int i=0;i<4;i++){
+    for (int i=0;i<ROWS;i++){
         int count =0;
-        int j =3;
-        while(count<4 && j>0){       
+        int j =COLUMNS-1;
+        while(count<COLUMNS && j>0){       
             if (A[i][j] == -1){
                 shift_right(A, i, j);  
                 count++;
@@ -231,12 +234,12 @@ int right(int A[4][4]){
     return flag;
 }
 
-void randomSquare(int A[4][4]){
+void randomSquare(int A[ROWS][COLUMNS]){
     while(1){
-        for (int i=0; i<4; i++){
-            for (int j=0; j<4; j++){
-                if(A[i][j] == -1 && rand()%32 ==0){
-                    A[i][j] = rand()%10==0?4:2;  
+        for (int i=0; i<ROWS; i++){
+            for (int j=0; j<COLUMNS; j++){
+                if(A[i][j] == -1 && rand()%2*ROWS*COLUMNS ==0){    //ADJUST PROBABILITY HERE. 
+                    A[i][j] = rand()%10==0?4:2;                    //HIGHER MODULUS OF RAND MEANS MORE EVEN DISTRIBUTION OF NEW NUMBERS(makes it slower ig)
                     return;
                 }
             }
@@ -245,11 +248,11 @@ void randomSquare(int A[4][4]){
     }
 }
 
-int isGameOver(int A[4][4]){
+int isGameOver(int A[ROWS][COLUMNS]){
     int dontChangeScore = score;
-    int B[4][4];
-    for (int i=0;i<4;i++){
-        for(int j=0;j<4;j++){
+    int B[ROWS][COLUMNS];
+    for (int i=0;i<ROWS;i++){
+        for(int j=0;j<COLUMNS;j++){
             B[i][j] = A[i][j];
         }
     }
@@ -260,8 +263,8 @@ int isGameOver(int A[4][4]){
 }
 
 int reset(){
-    for(int i=0;i<4;i++){
-        for (int j=0; j<4; j++){
+    for(int i=0;i<ROWS;i++){
+        for (int j=0; j<COLUMNS; j++){
             A[i][j] = -1;
         }
     }
@@ -281,12 +284,20 @@ printf("Use wasd to play\n");
                                                        
 }
 
+void initialise(){
+    for (int i=0; i<ROWS; i++){
+        for (int j=0; j<COLUMNS;j++){
+            A[i][j] = -1;
+        }
+    }
+    randomSquare(A);
+    randomSquare(A);
+}
 
 int main(){
     artsy();
     srand(time(0));                 //time(0) gives current unix time. srand is used to seed rand
-    randomSquare(A);
-    randomSquare(A);
+    initialise();
     char c = 'z';
     char play = 'y';
     while(c != 'e'){                   //e for exit
